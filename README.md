@@ -146,19 +146,10 @@ This will create **libORB_SLAM2.so**  at *lib* folder and the executables **mono
 #7. ROS Examples
 
 ### Building the nodes for mono, stereo and RGB-D
-1. Add the path including *Examples/ROS/ORB_SLAM2* to the ROS_PACKAGE_PATH environment variable. Open .bashrc file and add at the end the following line. Replace PATH by the folder where you cloned ORB_SLAM2:
+ Go to *Examples/ROS/ORB_SLAM2* folder and execute:
 
   ```
-  export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:PATH/ORB_SLAM2/Examples/ROS
-  ```
-  
-2. Go to *Examples/ROS/ORB_SLAM2* folder and execute:
-
-  ```
-  mkdir build
-  cd build
-  cmake .. -DROS_BUILD_TYPE=Release
-  make -j
+  catkin bt
   ```
   
 ### Running Monocular Node
@@ -190,6 +181,14 @@ For a stereo input from topic `/camera/left/image_raw` and `/camera/right/image_
   
 Once ORB-SLAM2 has loaded the vocabulary, press space in the rosbag tab. Enjoy!. Note: a powerful computer is required to run the most exigent sequences of this dataset.
 
+
+### Running Zed
+Please read http://qiita.com/furushchev/items/ef6b0c1b471cef6228c0 first, especially for TX1
+
+then run folloing command:
+    ```
+    roslaunch ORB_SLAM2 orb_zed.launch
+    ``` 
 ### Running RGB_D Node
 For an RGB-D input from topics `/camera/rgb/image_raw` and `/camera/depth_registered/image_raw`, run node ORB_SLAM2/RGBD. You will need to provide the vocabulary file and a settings file. See the RGB-D example above.
 

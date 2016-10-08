@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find zed_wrapper)/launch/zed.launch" />
+
+  <arg name="zed_yaml" value="$(find ORB_SLAM2)/config/zed.yaml" />
+  <node pkg="ORB_SLAM2" name = "orb_slam" type="Stereo" output="screen" args="$(find ORB_SLAM2)/../../../Vocabulary/ORBvoc.txt $(arg zed_yaml) false">
+    <remap from ="/camera/left/image_raw" to="/camera/left/image_rect_color" />
+    <remap from ="/camera/right/image_raw" to="/camera/right/image_rect_color" />
+  </node>
+
+</launch>
