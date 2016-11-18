@@ -25,6 +25,8 @@ set(SRCS_DUTILS
   DUtils/Timestamp.cpp)
 
 find_package(OpenCV REQUIRED)
+#include(/usr/local/opencv3.1/share/OpenCV/OpenCVConfig.cmake)
+message(OpenCV_VERSION ${OpenCV_VERSION})
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 

@@ -28,9 +28,12 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 2.4.3 REQUIRED)
+find_package(OpenCV 3.1.0 REQUIRED)
+message(--------------OpenCV_VERSION ${OpenCV_VERSION})
+#include(/usr/local/opencv2.4.9.1/share/OpenCV/OpenCVConfig.cmake)
 find_package(Eigen3 3.1.0 REQUIRED)
-find_package(Pangolin REQUIRED)
+#find_package(Pangolin REQUIRED)
+include(/home/max/avmap/Pangolin/build/src/PangolinConfig.cmake)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
