@@ -51,22 +51,37 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "RGBD");
     ros::start();
 
-    if(argc != 3)
-    {
-        cerr << endl << "Usage: rosrun ORB_SLAM2 RGBD path_to_vocabulary path_to_settings" << endl;        
-        ros::shutdown();
-        return 1;
-    }    
+//    if(argc != 3)
+//    {
+//        cerr << endl << "Usage: rosrun ORB_SLAM2 RGBD path_to_vocabulary path_to_settings" << endl;
+//        ros::shutdown();
+//        return 1;
+//    }
+
+    ros::NodeHandle nh;
+    ros::NodeHandle nhp_("~");
+
+    string camera_rgb_image_, camera_depth_image_;
+    string vocabulary_file_;
+    string zed_calib_file_;
+    nhp_.param("camera/rgb/image_raw", camera_rgb_image_, string("/camera/rgb/image_raw"));
+    nhp_.param("camera/depth_registered/image_raw", camera_depth_image_, string("/camera/depth_registered/image_raw"));
+    nhp_.param("vocabulary_file", vocabulary_file_, string(""));
+    nhp_.param("zed_calib_file", zed_calib_file_, string(""));
+
+    std::cout<<std::endl;
+    std::cout<<"camera_rgb_image_: "<<camera_rgb_image_<<std::endl;
+    std::cout<<"camera_depth_image_: "<<camera_depth_image_<<std::endl;
+    std::cout<<"vocabulary_file: "<<vocabulary_file_<<std::endl;
+    std::cout<<"zed_calib_file: "<<zed_calib_file_<<std::endl;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::RGBD,true);
+    ORB_SLAM2::System SLAM(vocabulary_file_,zed_calib_file_,ORB_SLAM2::System::RGBD,true);
 
     ImageGrabber igb(&SLAM);
 
-    ros::NodeHandle nh;
-
-    message_filters::Subscriber<sensor_msgs::Image> rgb_sub(nh, "/camera/rgb/image_raw", 1);
-    message_filters::Subscriber<sensor_msgs::Image> depth_sub(nh, "camera/depth_registered/image_raw", 1);
+    message_filters::Subscriber<sensor_msgs::Image> rgb_sub(nh, camera_rgb_image_, 1);
+    message_filters::Subscriber<sensor_msgs::Image> depth_sub(nh, camera_depth_image_, 1);
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
     message_filters::Synchronizer<sync_pol> sync(sync_pol(10), rgb_sub,depth_sub);
     sync.registerCallback(boost::bind(&ImageGrabber::GrabRGBD,&igb,_1,_2));
