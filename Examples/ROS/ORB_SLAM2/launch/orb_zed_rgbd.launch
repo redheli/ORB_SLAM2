@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!--include file="$(find zed_wrapper)/launch/zed.launch" /-->
+
+  <node pkg="ORB_SLAM2" name = "orb_slam" type="RGBD" output="screen" >
+
+    <param name ="do_rectify" value="false" />
+    <param name ="do_view" value="true" />
+    <param name ="do_save" value="false" />
+    <param name ="vocabulary_file" value="$(find ORB_SLAM2)/../../../Vocabulary/ORBvoc.txt" />
+    <param name ="zed_calib_file" value="$(find ORB_SLAM2)/config/zed.yaml" />
+
+    <param name ="camera/rgb/image_raw" value="/zed/rgb/image_rect_color" />
+    <param name ="camera/depth_registered/image_raw" value="/zed/depth/depth_registered" />
+
+  </node>
+
+</launch>
